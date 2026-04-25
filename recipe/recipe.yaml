@@ -1,0 +1,54 @@
+schema_version: 1
+
+context:
+  name: facexlib
+  version: 0.3.0
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/facexlib-${{ version }}.tar.gz
+  sha256: 7ae784a520eb52e05583e8bf9f68f77f45083239ac754d646d635017b49e7763
+
+build:
+  number: 1
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - cython
+    - numpy
+    - setuptools
+  run:
+    - python >=${{ python_min }}
+    - filterpy
+    - numba
+    - numpy
+    - opencv
+    - pillow
+    - scipy
+    - pytorch
+    - torchvision
+    - tqdm
+
+tests:
+  - python:
+      imports:
+        - facexlib
+      pip_check: true
+
+      python_version: ${{ python_min }}.*
+about:
+  summary: Basic face library
+  license: MIT
+  license_file: LICENSE
+  homepage: https://github.com/xinntao/facexlib
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
