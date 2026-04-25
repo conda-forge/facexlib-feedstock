@@ -1,18 +1,21 @@
-{% set name = "facexlib" %}
-{% set version = "0.3.0" %}
+schema_version: 1
+
+context:
+  name: facexlib
+  version: 0.3.0
 
 package:
-  name: {{ name|lower }}
-  version: {{ version }}
+  name: ${{ name|lower }}
+  version: ${{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/facexlib-{{ version }}.tar.gz
+  url: https://pypi.io/packages/source/${{ name[0] }}/${{ name }}/facexlib-${{ version }}.tar.gz
   sha256: 7ae784a520eb52e05583e8bf9f68f77f45083239ac754d646d635017b49e7763
 
 build:
+  number: 1
   noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
-  number: 0
+  script: ${{ PYTHON }} -m pip install . -vv
 
 requirements:
   host:
@@ -32,19 +35,18 @@ requirements:
     - torchvision
     - tqdm
 
-test:
-  imports:
-    - facexlib
-  commands:
-    - pip check
-  requires:
-    - pip
+tests:
+  - python:
+      imports:
+        - facexlib
+      pip_check: true
 
+      python_version: ${{ python_min }}.*
 about:
-  home: https://github.com/xinntao/facexlib
   summary: Basic face library
   license: MIT
   license_file: LICENSE
+  homepage: https://github.com/xinntao/facexlib
 
 extra:
   recipe-maintainers:
